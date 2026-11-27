@@ -687,8 +687,12 @@ def encode_png(cv):
             + chunk(b"IDAT", zlib.compress(bytes(raw), 9)) + chunk(b"IEND", b""))
 
 
+def resolve_output_dir():
+    return os.environ.get("MAKEFUN_OUTPUT_DIR") or "output"
+
+
 def main():
-    out_dir = os.environ.get("MAKEFUN_OUTPUT_DIR") or "output"
+    out_dir = resolve_output_dir()
     os.makedirs(out_dir, exist_ok=True)
     data = encode_png(render())
     with open(os.path.join(out_dir, "entry.png"), "wb") as fh:
